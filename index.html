@@ -3,176 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mister Scale</title>
+    <title>Mr. Scale - Krypto Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #1e1e2f;
+            color: #fff;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Header */
         header {
-            background-color: #2f2f2f;
-            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2f2f4f;
             padding: 20px;
-            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        header img {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            border-radius: 5px;
         }
 
         header h1 {
-            margin: 0;
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
 
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: #444;
-            padding: 10px 0;
+        .spenden {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1rem;
         }
 
-        nav a {
-            color: white;
+        .spenden a {
+            color: #ff8c00;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: bold;
         }
 
-        nav a:hover {
-            color: #ff8c00;
+        .spenden a:hover {
+            color: #e67e00;
+            text-decoration: underline;
         }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: #f4f4f9;
+        .container {
+            padding: 20px;
         }
 
-        .hero h2 {
-            font-size: 2rem;
-            color: #2f2f2f;
+        .dropdown {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: #555;
-        }
-
-        .hero button {
-            padding: 10px 20px;
+        .dropdown select, .dropdown button {
+            padding: 10px;
             font-size: 1rem;
-            color: white;
-            background-color: #ff8c00;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
         }
 
-        .hero button:hover {
-            background-color: #e67600;
-        }
-
-        /* Features */
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 40px 20px;
-        }
-
-        .feature {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .feature img {
-            max-width: 100px;
-            margin-bottom: 10px;
-        }
-
-        .feature h3 {
-            font-size: 1.5rem;
-            color: #2f2f2f;
-        }
-
-        .feature p {
-            color: #555;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #2f2f2f;
+        .dropdown button {
+            background-color: #ff8c00;
             color: white;
-            text-align: center;
+        }
+
+        .dropdown button:hover {
+            background-color: #e67e00;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #2f2f4f;
             padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #2f2f4f;
+            text-align: center;
         }
 
         footer p {
             margin: 0;
         }
-
-        footer a {
-            color: #ff8c00;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>Mister Scale</h1>
+        <div style="display: flex; align-items: center;">
+            <img src="Firmenlogo.png" alt="Firmenlogo">
+            <h1>Mr. Scale</h1>
+        </div>
+        <button id="theme-toggle">Dark/Light Mode</button>
     </header>
 
-    <nav>
-        <a href="#features">Features</a>
-        <a href="#about">Über uns</a>
-        <a href="#contact">Kontakt</a>
-    </nav>
+    <div class="spenden">
+        <p>Unterstütze uns mit einer Spende: <a href="#" id="spenden-link">1PmMXgbpFaETGSrhzXeoUp572mSd9EtzdG</a></p>
+    </div>
 
-    <section class="hero">
-        <h2>Die einfachste Art, Krypto zu kaufen</h2>
-        <p>Mit Mister Scale kannst du ohne Registrierung und ohne KYC Kryptowähgung kaufen und sparen.</p>
-        <button>Jetzt herunterladen</button>
-    </section>
+    <div class="container">
+        <div class="dropdown">
+            <select id="crypto-select">
+                <option value="bitcoin" selected>Bitcoin</option>
+                <option value="ethereum">Ethereum</option>
+                <option value="dogecoin">Dogecoin</option>
+                <option value="ripple">Ripple</option>
+            </select>
+            <select id="currency-select">
+                <option value="eur" selected>Euro (€)</option>
+                <option value="usd">US-Dollar ($)</option>
+            </select>
+        </div>
 
-    <section id="features" class="features">
-        <div class="feature">
-            <img src="https://via.placeholder.com/100" alt="Feature Icon">
-            <h3>Keine Anmeldung</h3>
-            <p>Kaufe Kryptowährung ohne Registrierung.</p>
+        <div class="grid">
+            <div class="card" id="overview-card">
+                <h3>Krypto-Infos</h3>
+                <p id="market-cap"></p>
+                <p id="supply"></p>
+            </div>
+
+            <div class="card" id="price-card">
+                <h3>Preis</h3>
+                <p id="crypto-price"></p>
+            </div>
         </div>
-        <div class="feature">
-            <img src="https://via.placeholder.com/100" alt="Feature Icon">
-            <h3>Einfache Nutzung</h3>
-            <p>Kryptowährung kaufen war noch nie so einfach.</p>
+
+        <div class="chart-container">
+            <canvas id="crypto-chart"></canvas>
         </div>
-        <div class="feature">
-            <img src="https://via.placeholder.com/100" alt="Feature Icon">
-            <h3>Sicher</h3>
-            <p>Verwalte deine Bitcoin in deiner eigenen Wallet.</p>
-        </div>
-    </section>
+    </div>
 
     <footer>
-        <p><strong>Impressum:</strong> Diese Website ist im Aufbau, ein Impressum wird nach Firmengründung nachgetragen.</p>
-        <p><strong>Haftungsausschluss:</strong> Die bereitgestellten Informationen sind unverbindlich und dienen nur zu Informationszwecken.</p>
-        <p><a href="#contact">Kontaktieren Sie uns</a></p>
+        <p>&copy; 2024 Mr. Scale - Alle Rechte vorbehalten</p>
     </footer>
 
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const cryptoSelect = document.getElementById('crypto-select');
+        const currencySelect = document.getElementById('currency-select');
+        const marketCap = document.getElementById('market-cap');
+        const supply = document.getElementById('supply');
+        const cryptoPrice = document.getElementById('crypto-price');
+        const spendenLink = document.getElementById('spenden-link');
+        const ctx = document.getElementById('crypto-chart').getContext('2d');
+
+        let chart;
+
+        async function fetchCryptoData(crypto, currency) {
+            const response = await fetch(`https://api.coingecko.com/api/v3/coins/${crypto}?localization=false&market_data=true`);
+            const data = await response.json();
+
+            marketCap.textContent = `Marktkapitalisierung: ${data.market_data.market_cap[currency].toLocaleString()} ${currency.toUpperCase()}`;
+            supply.textContent = `Angebot: ${data.market_data.total_supply.toLocaleString()} ${data.symbol.toUpperCase()}`;
+            cryptoPrice.textContent = `Aktueller Preis: ${data.market_data.current_price[currency].toLocaleString()} ${currency.toUpperCase()}`;
+            fetchCryptoChart(crypto, currency);
+        }
+
+        async function fetchCryptoChart(crypto, currency) {
+            const response = await fetch(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=${currency}&days=7`);
+            const data = await response.json();
+
+            const labels = data.prices.map(([timestamp]) => new Date(timestamp).toLocaleTimeString());
+            const prices = data.prices.map(([, price]) => price);
+
+            if (chart) chart.destroy();
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: `Kursverlauf (${currency.toUpperCase()})`,
+                        data: prices,
+                        borderColor: '#ff8c00',
+                        borderWidth: 2,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                },
+            });
+        }
+
+        spendenLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            navigator.clipboard.writeText(spendenLink.textContent);
+            alert('Spendenadresse kopiert!');
+        });
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+        });
+
+        cryptoSelect.addEventListener('change', () => {
+            fetchCryptoData(cryptoSelect.value, currencySelect.value);
+        });
+
+        currencySelect.addEventListener('change', () => {
+            fetchCryptoData(cryptoSelect.value, currencySelect.value);
+        });
+
+        fetchCryptoData(cryptoSelect.value, currencySelect.value);
+    </script>
 </body>
 </html>
